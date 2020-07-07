@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "build": "tsc",
+        "start": "node src/draft.js"
+    },
+    "devDependencies": {
+        "typescript": "^3.9.6"
+    }
+}
