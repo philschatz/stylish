@@ -1,100 +1,21 @@
-// --------------------------------------------
-// This is an example of the Chemistry styling
-// --------------------------------------------
+import { Component, Shape } from "./framework"
 
-// START: Framework
-
-enum SLICE_ENUM {
+// Some constants. These would likely be in a book-specific file rather than in here
+export enum SLICE_ENUM {
     SLICE,
     AUTO,
     DEFAULT
 }
-enum UNIT {
+export enum UNIT {
     REM = 'rem'
 }
-type Length = [number, UNIT] // e.g. [2, 'rem']
-const colorMap = {
+export type Length = [number, UNIT] // e.g. [2, 'rem']
+export const colorMap = {
     fontBodyColor: '#000',
     everydayLifeColor: '#ff0',
     portraitColor: '#0f0',
 }
-const typography = { titleFont: 'Comic Sans' }
-function columnVSpacing(i: number) { return '' }
-const allStyles: [string, Shape<any,any>][] = []
-const styles = {
-    add: function (selector: string, instance: Shape<any, any>) { 
-        allStyles.push([selector, instance])
-    },
-    toCSS: function () {
-        return allStyles.map(s => s[1].toCss(s[0])).join('\n')
-    }
-}
-
-function assertArray<T>(o: any): Array<T> {
-    if (Array.isArray(o)) {
-        return o
-    } else {
-        throw new Error('BUG: Expected an Array')
-    }
-}
-
-
-
-// END: Framework
-
-
-
-
-
-
-// START: Design file
-
-
-// For unit tests we could use screenshots OR... create snapshot files that can be diffed (JSON HTML with the style baked in)
-// expect(dom).toMatchSnapshot()
-//
-// <p style="border-color: #ffffff; border-top: 1px;">
-//
-
-// Think about css coverage 
-// Think about unit tests: What to test? screenshot comparison... 
-// Think if hot reloading is easy to add
-
-
-abstract class Component<T> {
-    public readonly props: Readonly<T>
-
-    constructor(public readonly sel: string, def: Partial<T>, p: T) {
-        this.props = { ...def, ...p }
-    }
-
-    toCss(prefixSel: string) {
-        return `${prefixSel} ${this.sel} ${JSON.stringify(this.props)}\n`
-    }
-}
-
-
-abstract class Shape<T, C> {
-    public readonly props: Readonly<T>
-    public readonly components: Readonly<C>
-
-    constructor(def: Partial<T>, p: T, c: C) {
-        this.props = { ...def, ...p };
-        this.components = c
-    }
-
-    toCss(sel: string) {
-        const components = assertArray<Component<any>>(this.components)
-        return `${sel} ${JSON.stringify(this.props)} ${components.map(c => c.toCss(sel)).join('\n')}`
-    }
-}
-
-
-
-
-// START: Design
-
-
+export const typography = { titleFont: 'Comic Sans' }
 
 
 // ------------------------------
@@ -120,6 +41,7 @@ export class Title extends Component<TitleParams> {
         super(titleSubselector, titleDefaults, p)
     }
 }
+
 
 
 // ------------------------------
@@ -228,71 +150,3 @@ export class EOCAssessments extends Shape<EOCAssessmentsParams, EOCAssessmentsCo
         super({}, p, comps)
     }
 }
-
-
-
-// END: Design
-
-// START: Book code
-
-
-
-
-
-
-
-
-// Chemist Portrait
-const cp = new BoxedNote({
-    borderColor: 'blue',
-    groupBorderColor: 'green'
-}, new Title({
-    fontFamily: typography.titleFont, 
-    color: 'yellow'
-}))
-styles.add('.chemist-portrait', cp)
-
-// Everyday Life
-const el = new BoxedNote({
-    borderColor: 'blue',
-    groupBorderColor: 'green'
-}, new Title({
-    fontFamily: typography.titleFont, 
-    color: 'yellow'
-}))
-styles.add('.everyday-life', el)
-
-
-
-const Exercises = new EOCAssessments({},
-    new Container({
-        columnCount: 2,
-        columnGap: [2.4, UNIT.REM],
-        columnWidth: 'auto',
-    }),
-    new ProblemNumber({
-        color: colorMap.fontBodyColor
-    }),
-    new SectionMarginBottom({
-        marginBottom: columnVSpacing(1)
-    })
-);
-styles.add("[data-type = 'chapter'] > .os-exercises-container", Exercises)
-
-
-// A more concise way to write this (maybe autogen?)
-//
-// { 
-//    class: 'NoteTitle'
-//    defaults: { fontName: 'Arial' }                 // These are values
-//    requiredFields: { borderColor: 'string' }       // These are Types
-//    optionalFields: { borderStyle: 'BORDER_STYLE' } // These are also Types
-//    components: [ 'Title', 'ProblemNumber' ]        // These are also Types
-// }
-
-
-// Now, try finishing this line in VSCode by uncommenting it and pressing "(":
-// const x = new BoxedNote
-
-
-console.log(styles.toCSS())

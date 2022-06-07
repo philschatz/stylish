@@ -1,9 +1,9 @@
 {
     "scripts": {
-        "build": "tsc",
-        "start": "node src/draft.js"
+        "start": "ts-node src/chemistry.ts"
     },
     "devDependencies": {
+        "ts-node": "^10.8.1",
         "typescript": "^3.9.6"
     }
 }
