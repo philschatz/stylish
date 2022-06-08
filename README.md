@@ -8,11 +8,26 @@ Or run locally:
 
 ```sh
 npm install
-npm run start
+npm run ts    # for the TypeScript example
+npm run xml   # for the XML example
 ```
 
+### TypeScript
+
+With this method, a design defines classes whose values will be filled in when they are instantiated in the books file. The book file instantiates classes with values and then calls toCSS() to convert the code to CSS.
+
+By using TypeScript the editor can autocomplete when devs are writing the `chemistry.ts` file.
+
+Files:
+
+- [chemistry.ts](./src/ts-example/chemistry.ts) contains all the Book styling.
+- [design.ts](./src/ts-example/design.ts) defines all the classes that will be instantiated with values.
+- [framework.ts](./src/ts-example/framework.ts) defines all the base classes as well as a `styles.toCSS()` that converts all the instantiated classes (Objects) to CSS.
+
+**Note:** the whole file is pretty much just instantiations of classes, no conditionals or loops which one would expect in a programming language.
+
 <details>
-<summary>Click to see the generated CSS output</summary>
+<summary>Click to see the generated CSS output from the TypeScript files</summary>
 
 ```css
 .chemist-portrait {"fontName":"Arial","borderColor":"blue","groupBorderColor":"green"} .chemist-portrait [data-type="title"] {"fontFamily":"Comic Sans","color":"yellow"}
@@ -28,17 +43,40 @@ npm run start
 
 </details>
 
-## Autocompletion
+### Autocompletion
 
 A major feature of this method over SASS is that developers have type hints so folks don't have to remember all of the arguments to style a component:
 
 ![screencast of autocompletion](./stylish-autocomplete.gif)
 
 
-## Notes
+### Notes
 
 A Turing-Complete language like TypeScript is probably overkill for something that generates CSS since styling a book does not need to perform conditionals & loops. The features that do seem useful are:
 
 - creating instances of objects
 - defining and using variables to deduplicate code
 - type-checking and autocompletion
+
+
+## XML
+
+This option uses XML data files to store the styling information, XSD files to autocomplete in the editor, and eventually sourcemaps to link devs back to the source information when viewing the CSS in a browser.
+
+Files:
+
+- [chemistry.xml](./src/xml-example/chemistry.xml)
+- [design.xml](./src/xml-example/design.xml)
+- [framework.xsd](./src/xml-example/schemas/framework.xsd)
+- [generate-design.xsl](./src/xml-example/schemas/generate-design.xsl): Generates a schema from the design file that is used for validating the book XML file.
+
+### Install prerequisites
+
+This demo requires `xsltproc` and `xmllint` (for validating)
+
+You can run these commands in GitPod:
+
+```
+sudo apt install libxml2-utils
+sudo apt install xsltproc
+```

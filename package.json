@@ -1,6 +1,10 @@
 {
     "scripts": {
-        "start": "ts-node src/ts-example/chemistry.ts"
+        "start": "npm run ts && npm run xml",
+        "ts": "ts-node src/ts-example/chemistry.ts",
+        "prexml": "xmllint --schema src/xml-example/schemas/framework.xsd src/xml-example/design.xml  --noout",
+        "xml": "xsltproc src/xml-example/schemas/generate-design.xsl src/xml-example/design.xml > src/xml-example/schemas/_autogen-design.xsd",
+        "postxml": "xmllint --schema src/xml-example/schemas/_autogen-design.xsd src/xml-example/chemistry.xml  --noout"
     },
     "devDependencies": {
         "ts-node": "^10.8.1",

@@ -1,0 +1,46 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:element name="param">
+    <xs:complexType>
+        <xs:attribute name="name" use="required" type="xs:string"/>
+        <xs:attribute name="required" use="required" type="xs:boolean"/>
+        <xs:attribute name="type" use="required" type="xs:string"/>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="component">
+    <xs:complexType>
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="param"/>
+        </xs:choice>
+        <xs:attribute name="name" use="required" type="xs:string"/>
+        <xs:attribute name="subselector" use="required" type="xs:string"/>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="component-ref">
+    <xs:complexType>
+        <xs:attribute name="ref" use="required" type="xs:string"/>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="shape">
+    <xs:complexType>
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="param"/>
+            <xs:element ref="component-ref"/>
+        </xs:choice>
+        <xs:attribute name="name" use="required" type="xs:string"/>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="root">
+    <xs:complexType>
+        <xs:choice minOccurs="1" maxOccurs="unbounded">
+            <xs:element ref="component"/>
+            <xs:element ref="shape"/>
+        </xs:choice>
+    </xs:complexType>
+</xs:element>
+
+</xs:schema>

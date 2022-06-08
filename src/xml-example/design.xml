@@ -1,0 +1,47 @@
+<!--
+  Compare this to the design.ts file.
+
+  What this is: This will be used to generate a RelaxNG file that will validate the chemistry.xml file.
+
+  Think of each of these are "classes" that are "instantiated" in a book or theme.
+-->
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schemas/framework.xsd">
+
+    <component name="Title" subselector="[data-type='title']">
+        <param name="fontFamily"  required="true" type="xs:string"/>
+        <param name="color"       required="true" type="xs:string"/>
+        <param name="fontWeight"  required="false" type="xs:string"/>
+    </component>
+
+    <shape name="BoxedNote">
+        <param name="borderColor"       required="true" type="xs:string"/>
+        <param name="groupBorderColor"  required="true" type="xs:string"/>
+        <param name="groupBorderStyle"  required="false" type="SLICE_ENUM"/>
+        <param name="groupBorderWidth"  required="false" type="Length"/>
+        <param name="groupBoxDecorationBreak" required="false" type="SLICE_ENUM"/>
+
+        <component-ref ref="Title"/>
+    </shape>
+
+
+
+    <component name="Container" subselector="[data-type='os-container']">
+        <param name="columnCount"   required="true" type="xs:integer"/>
+        <param name="columnGap"     required="true" type="Length"/>
+        <param name="columnWidth"   required="true" type="xs:string"/>
+    </component>
+
+    <component name="ProblemNumber" subselector="[data-type='os-problem-number']">
+        <param name="color" required="true" type="xs:string"/>
+    </component>
+
+    <component name="SectionMarginBottom" subselector="[data-type='os-problem-number']">
+        <param name="marginBottom" required="true" type="xs:string"/>
+    </component>
+
+    <shape name="EOCAssessments">
+        <component-ref ref="Container"/>
+        <component-ref ref="ProblemNumber"/>
+        <component-ref ref="SectionMarginBottom"/>
+    </shape>
+</root>
