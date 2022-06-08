@@ -2,8 +2,8 @@
 // This is an example of the Chemistry styling
 // --------------------------------------------
 
-import { BoxedNote, colorMap, Container, EOCAssessments, ProblemNumber, SectionMarginBottom, Title, typography, UNIT } from "./stylish/design"
-import { columnVSpacing, styles } from "./stylish/framework"
+import { BoxedNote, colorMap, Container, EOCAssessments, ProblemNumber, SectionMarginBottom, Title, typography, UNIT } from "./design"
+import { columnVSpacing, styles } from "./framework"
 
 // The title of all features is styled the same way so make it a variable
 const featureTitle = new Title({

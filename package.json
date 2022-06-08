@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "start": "ts-node src/chemistry.ts"
+        "start": "ts-node src/ts-example/chemistry.ts"
     },
     "devDependencies": {
         "ts-node": "^10.8.1",
