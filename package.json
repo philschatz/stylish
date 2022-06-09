@@ -2,12 +2,20 @@
     "scripts": {
         "start": "npm run ts && npm run xml",
         "ts": "ts-node src/ts-example/chemistry.ts",
-        "prexml": "xmllint --schema src/xml-example/schemas/framework.xsd src/xml-example/design.xml  --noout",
-        "xml": "xsltproc src/xml-example/schemas/generate-design.xsl src/xml-example/design.xml > src/xml-example/schemas/_autogen-design.xsd",
-        "postxml": "xmllint --schema src/xml-example/schemas/_autogen-design.xsd src/xml-example/chemistry.xml  --noout"
+        "prebuild-xml-schema": "xmllint --schema src/xml-example/schemas/framework.xsd src/xml-example/design.xml  --noout",
+        "build-xml-schema": "xsltproc src/xml-example/schemas/generate-design.xsl src/xml-example/design.xml > src/xml-example/schemas/_autogen-design.xsd",
+        "postbuild-xml-schema": "xmllint --schema src/xml-example/schemas/_autogen-design.xsd src/xml-example/chemistry.xml  --noout",
+        "xml-runner": "ts-node src/xml-example/runner.ts",
+        "xml": "npm run build-xml-schema && npm run xml-runner"
     },
     "devDependencies": {
+        "@types/xmldom": "^0.1.31",
         "ts-node": "^10.8.1",
         "typescript": "^3.9.6"
+    },
+    "dependencies": {
+        "source-map": "^0.7.4",
+        "xmldom": "^0.6.0",
+        "xpath-ts": "^1.3.13"
     }
 }

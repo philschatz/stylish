@@ -4,6 +4,7 @@
     Think of these as "instances" of the "classes" defined in design.xml
 -->
 <book-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schemas/_autogen-design.xsd">
+
     <BoxedNote 
         selector=".chemist-portrait"
         borderColor="blue"

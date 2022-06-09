@@ -47,7 +47,7 @@ Files:
 
 A major feature of this method over SASS is that developers have type hints so folks don't have to remember all of the arguments to style a component:
 
-![screencast of autocompletion](./stylish-autocomplete.gif)
+![screencast of autocompletion](./ts-example.gif)
 
 
 ### Notes
@@ -74,9 +74,8 @@ Files:
 
 This demo requires `xsltproc` and `xmllint` (for validating)
 
-You can run these commands in GitPod:
+### XML Screencap
 
-```
-sudo apt install libxml2-utils
-sudo apt install xsltproc
-```
+This shows autocompletion of the `chemistry.xml` file and sourcemapping in the browser
+
+![Screencap of Autocomplete and Sourcemapping](https://user-images.githubusercontent.com/253202/172738119-0c9fde62-2535-4bac-8b29-84d368879ece.mp4)
