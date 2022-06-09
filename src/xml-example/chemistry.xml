@@ -10,7 +10,9 @@
         borderColor="blue"
         groupBorderColor="green">
 
-        <Title color="yellow" fontFamily="{typography.titleFont}"/>
+        <Title 
+            color="yellow"
+            fontFamily="{typography.titleFont}"/>
     </BoxedNote>
 
     <BoxedNote selector=".everyday-life"
