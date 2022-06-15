@@ -65,7 +65,7 @@ This option uses XML data files to store the styling information, XSD files to a
 
 Files:
 
-- [chemistry.xml](./src/xml-example/chemistry.xml)
+- [sociology.xml](./src/xml-example/sociology.xml)
 - [design.xml](./src/xml-example/design.xml)
 - [framework.xsd](./src/xml-example/schemas/framework.xsd)
 - [generate-design.xsl](./src/xml-example/schemas/generate-design.xsl): Generates a schema from the design file that is used for validating the book XML file.

@@ -1,36 +1,57 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-<xs:element name="param">
+<xs:element name="prop">
     <xs:complexType>
         <xs:attribute name="name" use="required" type="xs:string"/>
-        <xs:attribute name="required" use="required" type="xs:boolean"/>
+        <xs:attribute name="use" use="required">
+            <!-- See the schema for XMLSchema: https://www.w3.org/2009/XMLSchema/XMLSchema.xsd -->
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="required"/>
+                    <xs:enumeration value="optional"/>
+                    <!-- <xs:enumeration value="prohibited"/> -->
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
         <xs:attribute name="type" use="required" type="xs:string"/>
+    </xs:complexType>
+</xs:element>
+
+<xs:element name="prop-defined">
+    <xs:complexType>
+        <xs:attribute name="name" use="required" type="xs:string"/>
+        <xs:attribute name="value" use="required" type="xs:string"/>
     </xs:complexType>
 </xs:element>
 
 <xs:element name="component">
     <xs:complexType>
         <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <xs:element ref="param"/>
+            <xs:element ref="prop"/>
+            <xs:element ref="prop-defined"/>
         </xs:choice>
-        <xs:attribute name="name" use="required" type="xs:string"/>
+        <xs:attribute name="id" use="required" type="xs:ID"/>
+        <xs:attribute name="name" use="required" type="xs:NCName"/>
         <xs:attribute name="subselector" use="required" type="xs:string"/>
     </xs:complexType>
 </xs:element>
 
 <xs:element name="component-ref">
     <xs:complexType>
-        <xs:attribute name="ref" use="required" type="xs:string"/>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element ref="component-ref"/>
+        </xs:choice>
+        <xs:attribute name="ref" use="required" type="xs:IDREF"/>
     </xs:complexType>
 </xs:element>
 
 <xs:element name="shape">
     <xs:complexType>
         <xs:choice minOccurs="1" maxOccurs="unbounded">
-            <xs:element ref="param"/>
+            <xs:element ref="prop"/>
             <xs:element ref="component-ref"/>
         </xs:choice>
-        <xs:attribute name="name" use="required" type="xs:string"/>
+        <xs:attribute name="id" use="required" type="xs:ID"/>
     </xs:complexType>
 </xs:element>
 

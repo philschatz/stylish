@@ -1,0 +1,55 @@
+<!-- See https://github.com/openstax/ce-styles/blob/main/styles/books/sociology/book.scss#L61-L71 -->
+<book-root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schemas/_autogen-design.xsd">
+
+    <!-- Woot. Found unused code: Boxed__Body border-color="{colorMap:::boxedNoteBodyBackgroundOption2Color}" -->
+
+    <vars>
+        <var id="typography:::titleOption1Font" value="Archivo, sans-serif, StixGeneral" />
+        <var id="typography:::titleOption2Font" value="IBM Plex Sans, sans-serif, StixGeneral" />
+        <var id="typography:::titleOption3Font" value="Archivo Black, sans-serif, StixGeneral" />
+        <var id="colorMap:::boxedNoteTitleColor" value="white" />
+        <var id="colorMap:::boxedNoteTitleBorderColor" value="white" />
+        <var id="colorMap:::fontBodyColor" value="black" />
+
+        <!-- HACK: https://github.com/openstax/ce-styles/blob/bd4439f4004d156ac231c8e1f107114fcbfcd431/styles/designs/common/pdf/typography.scss#L19 -->
+        <var id="font-scale(0)" value="1rem"/>
+        <var id="font-scale(1)" value="1.2rem"/>
+        <var id="line-height(0)" value="1rem"/>
+        <var id="line-height(1)" value="1.5rem"/>
+        <var id="v-spacing(1)" value="0.7rem"/>
+        <var id="v-spacing(2)" value="1.4rem"/>
+
+    </vars>
+
+    <shapes>
+
+        <BoxedNoteWithSubtitleShape
+            selector=".sociology-big-picture">
+
+            <_Notes__Container>
+                <_Notes--Boxed__Title
+                    color="{colorMap:::boxedNoteTitleColor}"
+                    font-family="{typography:::titleOption3Font}"
+                    border-color="{colorMap:::boxedNoteTitleBorderColor}"
+
+                    background-color="#C31427"
+                />
+
+                <_Notes--Boxed__Body
+                    font-family="{typography:::titleOption2Font}"
+
+                    background-color="#FFE5E5"
+                >
+                    <_Notes--Boxed__Subtitle
+                        color="{colorMap:::fontBodyColor}"
+                        font-family="{typography:::titleOption1Font}"
+                    />
+
+                    <_UnorderedList--NotesQuestionSection />
+                </_Notes--Boxed__Body>
+            </_Notes__Container>
+        </BoxedNoteWithSubtitleShape>
+
+    </shapes>
+
+</book-root>

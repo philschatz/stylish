@@ -1,47 +1,71 @@
 <!--
-  Compare this to the design.ts file.
+    See https://github.com/openstax/ce-styles/blob/main/styles/designs/cosmos/parts/notes/_notes-boxed-shapes.scss
 
-  What this is: This will be used to generate a RelaxNG file that will validate the chemistry.xml file.
+    What this is: This will be used to generate a RelaxNG file that will validate the chemistry.xml file.
 
-  Think of each of these are "classes" that are "instantiated" in a book or theme.
+    Think of each of these are "classes" that are "instantiated" in a book or theme.
 -->
 <root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="./schemas/framework.xsd">
 
-    <component name="Title" subselector="[data-type='title']">
-        <param name="fontFamily"  required="true" type="xs:string"/>
-        <param name="color"       required="true" type="xs:string"/>
-        <param name="fontWeight"  required="false" type="xs:string"/>
+    <!-- https://github.com/openstax/ce-styles/blob/37de324696b2813a57e8c12c5908f3e0c383dbd8/styles/designs/cosmos/parts/notes/_notes-components.scss#L2 -->
+    <component id="_Notes__Container" name="Container" subselector="">
+        <prop-defined name="margin-bottom" value="{v-spacing(2)}"/>
+        <prop name="box-decoration-break" use="optional" type="os:dunno-yet"/><!-- used in Iconned notes and Condensed Iconnned notes with borders -->
     </component>
 
-    <shape name="BoxedNote">
-        <param name="borderColor"       required="true" type="xs:string"/>
-        <param name="groupBorderColor"  required="true" type="xs:string"/>
-        <param name="groupBorderStyle"  required="false" type="SLICE_ENUM"/>
-        <param name="groupBorderWidth"  required="false" type="Length"/>
-        <param name="groupBoxDecorationBreak" required="false" type="SLICE_ENUM"/>
+    <component id="_Notes--Boxed__Title" name="Title" subselector=" > .os-title">
+        <prop name="color" use="required" type="os:color"/>
+        <prop name="font-family" use="required" type="os:font"/>
+        <prop-defined name="font-size" value="{font-scale(1)}"/>
+        <prop-defined name="line-height" value="{line-height(1)}"/>
+        <prop-defined name="text-transform" value="uppercase"/>
 
-        <component-ref ref="Title"/>
+        <prop-defined name="text-align" value="right"/>
+        <prop-defined name="font-weight" value="normal"/>
+        <prop name="background-color" use="required" type="os:color"/>
+        <prop-defined name="padding" value="{v-spacing(1)}"/>
+        <prop-defined name="position" value="relative"/>
+        <prop-defined name="border-bottom" value="solid 0.2rem"/>
+        <prop name="border-color" use="required" type="os:color"/>
+    </component>
+
+    <component id="_Notes--Boxed__Body" name="Body" subselector=" > .os-note-body">
+        <prop name="font-family" use="required" type="os:font"/>
+        <prop-defined name="font-size" value="{font-scale(0)}"/>
+        <prop-defined name="line-height" value="{line-height(0)}"/>
+        <prop name="background-color" use="required" type="os:color"/>
+        <prop-defined name="padding" value="{v-spacing(1)}"/>
+    </component>
+    
+    <component id="_Notes--Boxed__Subtitle" name="Subtitle" subselector=" > .os-subtitle">
+        <prop name="color" use="required" type="os:color"/>
+        <prop name="font-family" use="required" type="os:color"/>
+        <prop-defined name="font-size" value="{font-scale(1)}"/>
+        <prop-defined name="line-height" value="{line-height(1)}"/>
+        <prop-defined name="font-weight" value="normal"/>
+        <prop-defined name="margin-bottom" value="{v-spacing(1)}"/>
+    </component>
+
+    <!-- See https://github.com/openstax/ce-styles/blob/e4c844d4e4e682934e213b892eb6987a674d519e/styles/designs/cosmos/parts/_lists-components.scss#L45-L58 -->
+    <component id="_UnorderedList--NotesQuestionSection" name="QuestionSection" subselector=" > ul.critical-thinking">
+        <prop-defined name="margin-left" value="0"/>
+        <prop-defined name="padding-left" value="h-spacing(3)"/>
+        <prop-defined name="padding-top" value="{v-spacing(1)}"/>
+        <prop-defined name="border-top-style" value="solid "/>
+        <prop-defined name="border-top-width" value="0.1rem"/>
+        <prop name="border-color" use="optional" type="os:color"/>
+        <prop-defined name="font-weight" value="700"/>
+    </component>
+
+    <!-- See https://github.com/openstax/ce-styles/blob/main/styles/designs/cosmos/parts/notes/_notes-boxed-shapes.scss -->
+    <shape id="BoxedNoteWithSubtitleShape">
+        <component-ref ref="_Notes__Container">
+            <component-ref ref="_Notes--Boxed__Title"/>
+            <component-ref ref="_Notes--Boxed__Body">
+                <component-ref ref="_Notes--Boxed__Subtitle"/>
+                <component-ref ref="_UnorderedList--NotesQuestionSection"/>
+            </component-ref>
+        </component-ref>
     </shape>
 
-
-
-    <component name="Container" subselector="[data-type='os-container']">
-        <param name="columnCount"   required="true" type="xs:integer"/>
-        <param name="columnGap"     required="true" type="Length"/>
-        <param name="columnWidth"   required="true" type="xs:string"/>
-    </component>
-
-    <component name="ProblemNumber" subselector="[data-type='os-problem-number']">
-        <param name="color" required="true" type="xs:string"/>
-    </component>
-
-    <component name="SectionMarginBottom" subselector="[data-type='os-problem-number']">
-        <param name="marginBottom" required="true" type="xs:string"/>
-    </component>
-
-    <shape name="EOCAssessments">
-        <component-ref ref="Container"/>
-        <component-ref ref="ProblemNumber"/>
-        <component-ref ref="SectionMarginBottom"/>
-    </shape>
 </root>

@@ -4,7 +4,7 @@
         "ts": "ts-node src/ts-example/chemistry.ts",
         "prebuild-xml-schema": "xmllint --schema src/xml-example/schemas/framework.xsd src/xml-example/design.xml  --noout",
         "build-xml-schema": "xsltproc src/xml-example/schemas/generate-design.xsl src/xml-example/design.xml > src/xml-example/schemas/_autogen-design.xsd",
-        "postbuild-xml-schema": "xmllint --schema src/xml-example/schemas/_autogen-design.xsd src/xml-example/chemistry.xml  --noout",
+        "postbuild-xml-schema": "xmllint --schema src/xml-example/schemas/_autogen-design.xsd src/xml-example/sociology.xml  --noout",
         "xml-runner": "ts-node src/xml-example/runner.ts",
         "xml": "npm run build-xml-schema && npm run xml-runner"
     },

@@ -5,28 +5,56 @@ import { useNamespaces } from 'xpath-ts'
 import { SourceMapGenerator } from 'source-map'
 
 type Pos = {
-    lineNumber: number,
+    filename: string
+    lineNumber: number
     columnNumber: number
 }
 type ComponentInfo = {
     subselector: string
+    definedProps: Prop[]
+    pos: Pos
+}
+type Prop = {
+    name: string
+    value: string
+    pos: Pos
+}
+type VarValue = {
+    value: string
     pos: Pos
 }
 type CSSRule = {
     selector: string
-    props: Map<string, [Pos, string]> // e.g. "color" -> "blue"
+    props: Prop[]
     componentName: string
     pos: Pos
 }
 
 class ParseError extends Error { }
 
-function assertValue<T>(v: T | null | undefined) {
-    if (v) return v
-    throw new Error('BUG: Expected a value but did not get anything')
+function assertValue<T>(v: T | null | undefined, message: string = 'Expected a value but did not get anything') {
+    if (v !== null && v !== undefined) return v
+    debugger
+    throw new Error(`BUG: assertValue. Message: ${message}`)
 }
 
-function parseXML(fileContent: string) {
+// xmldom parser includes the line/column information on the Node (but it's not exposed in the public API)
+function getPos(el: Node): Pos {
+    return el as unknown as Pos
+}
+
+// Add the source filename to every node (not just the line/column)
+function recAddFilenameToNodes(n: Node, filename: string) {
+    (n as any).filename = filename
+    for (const c of Array.from(n.childNodes || [])) {
+        recAddFilenameToNodes(c, filename)
+    }
+    const attrs = (n as any).attributes
+    for (const attr of Array.from(attrs || [])) {
+        (attr as any).filename = filename
+    }
+}
+function parseXML(fileContent: string, filename: string) {
     const locator = { lineNumber: 0, columnNumber: 0 }
     const cb = () => {
         const pos = {
@@ -43,18 +71,20 @@ function parseXML(fileContent: string) {
             fatalError: cb
         }
     })
-    return p.parseFromString(fileContent)
+    const doc = p.parseFromString(fileContent)
+    recAddFilenameToNodes(doc.documentElement, filename)
+    return doc
 }
 
 const select = useNamespaces({ })
 
-function attrsToProps(el: Element, exception?: string) {
-    const pairs = new Map<string, [Pos, string]>()
+function attrsToProps(el: Element, exception?: string): Prop[] {
+    const props: Prop[] = []
     for (const attr of Array.from(el.attributes)) {
         if (attr.name === exception) continue
-        pairs.set(attr.name, [attr as unknown as Pos, attr.value])
+        props.push({ name: attr.name, value: attr.value, pos: getPos(attr) })
     }
-    return pairs
+    return props
 }
 
 
@@ -64,60 +94,92 @@ function camelToDash(str: string){
 }
 // HACK: Instead of actually evaluating the template, wrap these templated strings in quotes so CSS does not complain
 function hackTemplate(str: string) {
-    if (str.startsWith('{')) return `"${str}"`
-    return str
+    if (str.startsWith('{')) {
+        if (str.endsWith('}')) {
+            const varKey = str.substring(1, str.length - 1)
+            const v = assertValue(vars.get(varKey), `Expected to find a variable named '${varKey}'`)
+            return v.value
+        } else throw new Error('Complex template replacement not implemented yet')
+    } else return str
 }
 
 
 
 
 
-const designDOM = parseXML(readFileSync(join(__dirname, 'design.xml'), 'utf-8'))
-const bookStr = readFileSync(join(__dirname, 'chemistry.xml'), 'utf-8')
-const bookDOM = parseXML(bookStr)
+const designStr = readFileSync(join(__dirname, 'design.xml'), 'utf-8')
+const designDOM = parseXML(designStr, 'design.xml')
+const bookStr = readFileSync(join(__dirname, 'sociology.xml'), 'utf-8')
+const bookDOM = parseXML(bookStr, 'sociology.xml')
 
-const instances = select('/book-root/*', bookDOM) as Element[]
+const varNodes = select('/book-root/vars/var', bookDOM) as Element[]
+const shapeInstances = select('/book-root/shapes/*', bookDOM) as Element[]
 
-const componentDOMClasses = select('//component', designDOM) as Element[]
+const componentDOMClasses = select('/root/component', designDOM) as Element[]
 const componentClasses = new Map<string, ComponentInfo>()
 for (const el of componentDOMClasses) {
-    componentClasses.set(assertValue(el.getAttribute('name')), {
+    const definedProps: Prop[] = []
+    for (const definedProp of select('prop-defined', el) as Element[]) {
+        const name = assertValue(definedProp.getAttribute('name'))
+        const value = assertValue(definedProp.getAttribute('value'))
+        definedProps.push({ name, value, pos: getPos(definedProp) })
+    }
+    componentClasses.set(assertValue(el.getAttribute('id')), {
         subselector: assertValue(el.getAttribute('subselector')),
-        pos: el as unknown as Pos
+        definedProps,
+        pos: getPos(el)
     })
 }
 
 
+const vars = new Map<string, VarValue>()
+for (const el of varNodes) {
+    const id = assertValue(el.getAttribute('id'))
+    const v = assertValue(el.getAttribute('value'))
+    if (vars.has(id)) throw new Error('Overriding vars not supported yet')
+    vars.set(id, { value: v, pos: getPos(el) })
+}
+
 
 const cssRules: CSSRule[] = []
-for (const el of instances) {
-    const attrs = Array.from(el.attributes)
-    const selector = assertValue(el.getAttribute('selector'))
-
-    if (attrs.length > 1) {
-        const sel = assertValue(attrs.find(a => a.name === 'selector'))
-        cssRules.push({ componentName: el.tagName, pos: sel as unknown as Pos, selector, props: attrsToProps(el, 'selector') })
-    }
+function handleChildren(el: Element, prefixSel: string) {
     for (const child of select('*', el) as Element[]) {
         const componentName = child.tagName
         const componentClass = assertValue(componentClasses.get(componentName))
+        const selector = `${prefixSel}${componentClass.subselector}`
         cssRules.push({
             componentName,
-            pos: child as unknown as Pos,
-            selector: `${selector} ${componentClass.subselector}`,
+            pos: getPos(child),
+            selector,
+            props: componentClass.definedProps
+        })        
+        cssRules.push({
+            componentName,
+            pos: getPos(child),
+            selector,
             props: attrsToProps(child)
         })
+        handleChildren(child, selector)
     }
+}
+for (const el of shapeInstances) {
+    const attrs = Array.from(el.attributes)
+    const selector = assertValue(el.getAttribute('selector'))
+
+    const sel = assertValue(attrs.find(a => a.name === 'selector'))
+    cssRules.push({ componentName: el.tagName, pos: getPos(sel), selector, props: attrsToProps(el, 'selector') })
+    handleChildren(el, selector)
 }
 
 // Print the CSS out
 const g = new SourceMapGenerator()
-g.setSourceContent('chemistry.xml', bookStr)
+g.setSourceContent('sociology.xml', bookStr)
+g.setSourceContent('design.xml', designStr)
 const theCSSFileLines: string[] = []
 
 function addLine(pos: Pos, text: string) {
     g.addMapping({
-        source: 'chemistry.xml',
+        source: assertValue(pos.filename),
         original: { line: pos.lineNumber, column: pos.columnNumber },
         generated: { line: theCSSFileLines.length + 1, column: 1 }
     })
@@ -128,9 +190,9 @@ function addLine(pos: Pos, text: string) {
 
 for (const r of cssRules) {
     // Add a sourcemap entry for the CSS Selector
-    addLine(r.pos, `${r.selector} { hack: "${r.componentName}"; }`)
-    for (const [key, value] of Array.from(r.props.entries())) {
-        addLine(value[0], `${r.selector} { ${camelToDash(key)}: ${hackTemplate(value[1])}; }`)
+    addLine(r.pos, `${r.selector} { -hack: "${r.componentName}"; }`)
+    for (const prop of r.props) {
+        addLine(prop.pos, `${r.selector} { ${camelToDash(prop.name)}: ${hackTemplate(prop.value)}; }`)
     }
 }
 

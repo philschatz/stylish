@@ -10,58 +10,102 @@
         <xsl:apply-templates select="node()"/>
 
         <xs:element name="book-root">
+            <xs:annotation><xs:documentation>A dummy container for the root of the book</xs:documentation></xs:annotation>    
             <xs:complexType>
-                <xs:choice minOccurs="1" maxOccurs="unbounded">
-                    <xsl:for-each select="component|shape">
-                        <xs:element ref="{@name}"/>
-                    </xsl:for-each>
-                </xs:choice>
+                <xs:sequence>
+                    <xs:element name="vars">
+                        <xs:annotation><xs:documentation>All of the variables that are used in the book need to be defined here</xs:documentation></xs:annotation>    
+                        <xs:complexType>
+                            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                                <xs:element name="var">
+                                    <xs:annotation><xs:documentation>The id is used in curly braces inside shape/component definitions and are replaced with this value</xs:documentation></xs:annotation>    
+                                    <xs:complexType>
+                                        <xs:attribute name="id" use="required" type="xs:string"/>
+                                        <xs:attribute name="value" use="required" type="xs:string"/>
+                                    </xs:complexType>
+                                </xs:element>
+                            </xs:choice>
+                        </xs:complexType>
+                    </xs:element>
+                    <xs:element name="shapes">
+                        <xs:annotation><xs:documentation>All of the instances of shapes that are used in the book need to be defined here</xs:documentation></xs:annotation>    
+                        <xs:complexType>
+                            <xs:choice minOccurs="1" maxOccurs="unbounded">
+                                <xsl:for-each select="shape">
+                                    <xs:element ref="{@id}"/>
+                                </xsl:for-each>
+                            </xs:choice>
+                        </xs:complexType>
+                    </xs:element>
+                </xs:sequence>
             </xs:complexType>
         </xs:element>
     </xs:schema>
 </xsl:template>
 
 <xsl:template match="component">
-    <xs:element name="{@name}">
-        <xs:complexType>
-            <xsl:apply-templates select="param"/>
-        </xs:complexType>
-    </xs:element>
+    <!-- <xsl:variable name="name">
+        <xsl:choose>
+            <xsl:when test="@name"><xsl:value-of select="@name"/></xsl:when>
+            <xsl:otherwise><xsl:value-of select="@id"/></xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable> -->
+    <xs:complexType name="{@id}">
+        <xsl:apply-templates select="prop|prop-defined"/>
+    </xs:complexType>
 </xsl:template>
 
 <xsl:template match="shape">
-    <xs:element name="{@name}">
+    <xs:element name="{@id}">
+        <xs:annotation><xs:documentation >This structure of this element is defined in the design.xml file</xs:documentation></xs:annotation>    
         <xs:complexType>
             <xs:sequence>
                 <xsl:apply-templates select="component-ref"/>
             </xs:sequence>
-            <xs:attribute name="selector" use="required" type="xs:string"/>
-            <xsl:apply-templates select="param"/>
+            <xs:attribute name="selector" use="required" type="xs:string">
+                <xs:annotation><xs:documentation>This is the root selector that will match elements in the HTML document</xs:documentation></xs:annotation>
+            </xs:attribute>
+            <xsl:apply-templates select="prop|prop-defined"/>
         </xs:complexType>
     </xs:element>
 </xsl:template>
 
-<xsl:template match="param">
+<xsl:template match="prop">
     <xs:attribute name="{@name}">
-        <xsl:if test="@required='true'">
-            <xsl:attribute name="use">required</xsl:attribute>
-        </xsl:if>
+        <xsl:apply-templates select="@use"/>
         <xsl:attribute name="type">
             <xsl:choose>
                 <xsl:when test="starts-with(@type, 'xs:')">
                     <xsl:value-of select="@type"/>
                 </xsl:when>
-                <!-- HACK: harrdcode all other types to be strings -->
+                <!-- HACK: hardcode all other types to be strings -->
                 <xsl:otherwise>
                     <xsl:text>xs:string</xsl:text>
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:attribute>
+        <xs:annotation><xs:documentation><xsl:value-of select="@use"/>. The value needs to be a <xsl:value-of select="@type"/></xs:documentation></xs:annotation>    
     </xs:attribute>
 </xsl:template>
 
-<xsl:template match="component-ref">
-    <xs:element ref="{@ref}"/>
+<xsl:template match="prop/@use">
+    <xsl:copy/>
 </xsl:template>
+
+<xsl:template match="component-ref">
+    <xs:element name="{@ref}">
+        <xs:annotation><xs:documentation>This is a component. For now it needs to be unique (e.g. there may be multiple Title components defined)</xs:documentation></xs:annotation>
+        <xs:complexType>
+            <xs:complexContent>
+                <xs:extension base="{@ref}">
+                    <xs:sequence>
+                        <xsl:apply-templates select="component-ref"/>
+                    </xs:sequence>
+                </xs:extension>
+            </xs:complexContent>
+        </xs:complexType>
+    </xs:element>
+</xsl:template>
+
 
 </xsl:stylesheet>
