@@ -26,28 +26,26 @@
         <BoxedNoteWithSubtitleShape
             selector=".sociology-big-picture">
 
-            <_Notes__Container>
-                <_Notes--Boxed__Title
-                    color="{colorMap:::boxedNoteTitleColor}"
-                    font-family="{typography:::titleOption3Font}"
-                    border-color="{colorMap:::boxedNoteTitleBorderColor}"
+            <_Notes--Boxed__Title
+                color="{colorMap:::boxedNoteTitleColor}"
+                font-family="{typography:::titleOption3Font}"
+                border-color="{colorMap:::boxedNoteTitleBorderColor}"
 
-                    background-color="#C31427"
+                background-color="#C31427"
+            />
+
+            <_Notes--Boxed__Body
+                font-family="{typography:::titleOption2Font}"
+
+                background-color="#FFE5E5"
+            >
+                <_Notes--Boxed__Subtitle
+                    color="{colorMap:::fontBodyColor}"
+                    font-family="{typography:::titleOption1Font}"
                 />
 
-                <_Notes--Boxed__Body
-                    font-family="{typography:::titleOption2Font}"
-
-                    background-color="#FFE5E5"
-                >
-                    <_Notes--Boxed__Subtitle
-                        color="{colorMap:::fontBodyColor}"
-                        font-family="{typography:::titleOption1Font}"
-                    />
-
-                    <_UnorderedList--NotesQuestionSection />
-                </_Notes--Boxed__Body>
-            </_Notes__Container>
+                <_UnorderedList--NotesQuestionSection />
+            </_Notes--Boxed__Body>
         </BoxedNoteWithSubtitleShape>
 
     </shapes>

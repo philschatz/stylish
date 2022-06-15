@@ -52,6 +52,7 @@
             <xs:element ref="component-ref"/>
         </xs:choice>
         <xs:attribute name="id" use="required" type="xs:ID"/>
+        <xs:attribute name="props-from-ref" use="optional" type="xs:IDREF"/>
     </xs:complexType>
 </xs:element>
 

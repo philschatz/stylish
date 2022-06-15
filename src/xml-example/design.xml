@@ -58,13 +58,11 @@
     </component>
 
     <!-- See https://github.com/openstax/ce-styles/blob/main/styles/designs/cosmos/parts/notes/_notes-boxed-shapes.scss -->
-    <shape id="BoxedNoteWithSubtitleShape">
-        <component-ref ref="_Notes__Container">
-            <component-ref ref="_Notes--Boxed__Title"/>
-            <component-ref ref="_Notes--Boxed__Body">
-                <component-ref ref="_Notes--Boxed__Subtitle"/>
-                <component-ref ref="_UnorderedList--NotesQuestionSection"/>
-            </component-ref>
+    <shape id="BoxedNoteWithSubtitleShape" props-from-ref="_Notes__Container">
+        <component-ref ref="_Notes--Boxed__Title"/>
+        <component-ref ref="_Notes--Boxed__Body">
+            <component-ref ref="_Notes--Boxed__Subtitle"/>
+            <component-ref ref="_UnorderedList--NotesQuestionSection"/>
         </component-ref>
     </shape>
 

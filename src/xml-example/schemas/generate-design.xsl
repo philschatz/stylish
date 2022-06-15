@@ -56,8 +56,9 @@
 </xsl:template>
 
 <xsl:template match="shape">
+    <xsl:variable name="propsFromRef" select="@props-from-ref"/>
     <xs:element name="{@id}">
-        <xs:annotation><xs:documentation >This structure of this element is defined in the design.xml file</xs:documentation></xs:annotation>    
+        <xs:annotation><xs:documentation >Defined in the design.xml file. Attributes: selector, <xsl:for-each select="/root/component[@id=$propsFromRef]/prop"><xsl:if test="position() != 1"><xsl:text>, </xsl:text></xsl:if><xsl:value-of select="@name"/><xsl:if test="@use='optional'">?</xsl:if>, </xsl:for-each>.</xs:documentation></xs:annotation>    
         <xs:complexType>
             <xs:sequence>
                 <xsl:apply-templates select="component-ref"/>
@@ -65,6 +66,9 @@
             <xs:attribute name="selector" use="required" type="xs:string">
                 <xs:annotation><xs:documentation>This is the root selector that will match elements in the HTML document</xs:documentation></xs:annotation>
             </xs:attribute>
+            <xsl:if test="$propsFromRef">
+                <xsl:apply-templates select="/root/component[@id=$propsFromRef]/*"/>
+            </xsl:if>
             <xsl:apply-templates select="prop|prop-defined"/>
         </xs:complexType>
     </xs:element>
@@ -93,11 +97,12 @@
 </xsl:template>
 
 <xsl:template match="component-ref">
-    <xs:element name="{@ref}">
-        <xs:annotation><xs:documentation>This is a component. For now it needs to be unique (e.g. there may be multiple Title components defined)</xs:documentation></xs:annotation>
+    <xsl:variable name="ref" select="@ref"/>
+    <xs:element name="{$ref}">
+        <xs:annotation><xs:documentation>This is a component. For now it needs to be unique. Attributes: <xsl:for-each select="/root/component[@id=$ref]/prop"><xsl:if test="position() != 1"><xsl:text>, </xsl:text></xsl:if><xsl:value-of select="@name"/><xsl:if test="@use='optional'">?</xsl:if></xsl:for-each>.</xs:documentation></xs:annotation>
         <xs:complexType>
             <xs:complexContent>
-                <xs:extension base="{@ref}">
+                <xs:extension base="{$ref}">
                     <xs:sequence>
                         <xsl:apply-templates select="component-ref"/>
                     </xs:sequence>
