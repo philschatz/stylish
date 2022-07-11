@@ -1,18 +1,47 @@
 # stylish
 
-## Install & Run
+Table of Contents
+=================
+
+* [stylish](#stylish)
+* [Table of Contents](#table-of-contents)
+   * [Install](#install)
+   * [Run](#run)
+   * [TypeScript](#typescript)
+         * [Notes](#notes)
+   * [XML](#xml)
+      * [XML Screencaps](#xml-screencaps)
+* [Explorations](#explorations)
+   * [Current Framework](#current-framework)
+   * [TypeScript](#typescript-1)
+   * [XML](#xml-1)
+   * [TSX](#tsx)
+      * [SimpleNote](#simplenote)
+      * [NoteTitle](#notetitle)
+      * [Combining SimpleNote and NoteTitle](#combining-simplenote-and-notetitle)
+      * [The Wall](#the-wall)
+
+## Install
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
 Or run locally:
 
 ```sh
+# Install `xsltproc` and `xmllint` (for the XML demo)
+
 npm install
 npm run ts    # for the TypeScript example
 npm run xml   # for the XML example
 ```
 
-### TypeScript
+## Run
+
+- Typescript: Open `chemistry.ts` and try recreating the `.chemist-portrait` Note
+- XML: Open the `sociology.xml` and try recreating the Note. Open the `xml-example.html` file in Chrome and inspect an element to see Sourcemapping
+- TSX: Open `cosmos.tsx`, extend the Component class and then instantiate it by writing JSX
+
+## TypeScript
 
 With this method, a design defines classes whose values will be filled in when they are instantiated in the books file. The book file instantiates classes with values and then calls toCSS() to convert the code to CSS.
 
@@ -26,31 +55,12 @@ Files:
 
 **Note:** the whole file is pretty much just instantiations of classes, no conditionals or loops which one would expect in a programming language.
 
-<details>
-<summary>Click to see the generated CSS output from the TypeScript files</summary>
-
-```css
-.chemist-portrait {"fontName":"Arial","borderColor":"blue","groupBorderColor":"green"} .chemist-portrait [data-type="title"] {"fontFamily":"Comic Sans","color":"yellow"}
-
-.everyday-life {"fontName":"Arial","borderColor":"blue","groupBorderColor":"green"} .everyday-life [data-type="title"] {"fontFamily":"Comic Sans","color":"yellow"}
-
-[data-type = 'chapter'] > .os-exercises-container {} [data-type = 'chapter'] > .os-exercises-container [data-type="os-container"] {"columnCount":2,"columnGap":[2.4,"rem"],"columnWidth":"auto"}
-
-[data-type = 'chapter'] > .os-exercises-container [data-type="os-problem-number"] {"color":"#000"}
-
-[data-type = 'chapter'] > .os-exercises-container [data-type="os-problem-number"] {"marginBottom":""}
-```
-
-</details>
-
-### Autocompletion
-
 A major feature of this method over SASS is that developers have type hints so folks don't have to remember all of the arguments to style a component:
 
-![screencast of autocompletion](./ts-example.gif)
+![screencast of autocompletion](./media/ts-example.gif)
 
 
-### Notes
+#### Notes
 
 A Turing-Complete language like TypeScript is probably overkill for something that generates CSS since styling a book does not need to perform conditionals & loops. The features that do seem useful are:
 
@@ -70,15 +80,15 @@ Files:
 - [framework.xsd](./src/xml-example/schemas/framework.xsd)
 - [generate-design.xsl](./src/xml-example/schemas/generate-design.xsl): Generates a schema from the design file that is used for validating the book XML file.
 
-### Install prerequisites
-
-This demo requires `xsltproc` and `xmllint` (for validating)
-
-### XML Screencap
+### XML Screencaps
 
 This shows autocompletion of the `chemistry.xml` file and sourcemapping in the browser
 
-[Screencap of Autocomplete and Sourcemapping](https://philschatz.com/stylish/xml-example.mp4)
+![Screencap of Autocomplete](./media/xml-autocomplete.gif)
+
+This screenshot shows sourcemaps:
+
+![Screencap of Sourcemaps](./media/xml-sourcemap.gif)
 
 
 
