@@ -78,7 +78,7 @@ This demo requires `xsltproc` and `xmllint` (for validating)
 
 This shows autocompletion of the `chemistry.xml` file and sourcemapping in the browser
 
-![Screencap of Autocomplete and Sourcemapping](https://user-images.githubusercontent.com/253202/172738119-0c9fde62-2535-4bac-8b29-84d368879ece.mp4)
+[Screencap of Autocomplete and Sourcemapping](https://philschatz.com/stylish/xml-example.mp4)
 
 
 

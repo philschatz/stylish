@@ -1,6 +1,4 @@
 /node_modules/
 /src/**/*.js
 /src/**/*.js.map
-src/xml-example/schemas/_autogen-design.xsd
-xml-example.css
 xml-example.css.map

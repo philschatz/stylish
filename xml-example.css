@@ -1,0 +1,39 @@
+.sociology-big-picture { -hack: "BoxedNoteWithSubtitleShape"; }
+.sociology-big-picture > .os-title { -hack: "_Notes--Boxed__Title"; }
+.sociology-big-picture > .os-title { font-size: 1.2rem; }
+.sociology-big-picture > .os-title { line-height: 1.5rem; }
+.sociology-big-picture > .os-title { text-transform: uppercase; }
+.sociology-big-picture > .os-title { text-align: right; }
+.sociology-big-picture > .os-title { font-weight: normal; }
+.sociology-big-picture > .os-title { padding: 0.7rem; }
+.sociology-big-picture > .os-title { position: relative; }
+.sociology-big-picture > .os-title { border-bottom: solid 0.2rem; }
+.sociology-big-picture > .os-title { -hack: "_Notes--Boxed__Title"; }
+.sociology-big-picture > .os-title { color: white; }
+.sociology-big-picture > .os-title { font-family: Archivo Black, sans-serif, StixGeneral; }
+.sociology-big-picture > .os-title { border-color: white; }
+.sociology-big-picture > .os-title { background-color: #C31427; }
+.sociology-big-picture > .os-note-body { -hack: "_Notes--Boxed__Body"; }
+.sociology-big-picture > .os-note-body { font-size: 1rem; }
+.sociology-big-picture > .os-note-body { line-height: 1rem; }
+.sociology-big-picture > .os-note-body { padding: 0.7rem; }
+.sociology-big-picture > .os-note-body { -hack: "_Notes--Boxed__Body"; }
+.sociology-big-picture > .os-note-body { font-family: IBM Plex Sans, sans-serif, StixGeneral; }
+.sociology-big-picture > .os-note-body { background-color: #FFE5E5; }
+.sociology-big-picture > .os-note-body > .os-subtitle { -hack: "_Notes--Boxed__Subtitle"; }
+.sociology-big-picture > .os-note-body > .os-subtitle { font-size: 1.2rem; }
+.sociology-big-picture > .os-note-body > .os-subtitle { line-height: 1.5rem; }
+.sociology-big-picture > .os-note-body > .os-subtitle { font-weight: normal; }
+.sociology-big-picture > .os-note-body > .os-subtitle { margin-bottom: 0.7rem; }
+.sociology-big-picture > .os-note-body > .os-subtitle { -hack: "_Notes--Boxed__Subtitle"; }
+.sociology-big-picture > .os-note-body > .os-subtitle { color: black; }
+.sociology-big-picture > .os-note-body > .os-subtitle { font-family: Archivo, sans-serif, StixGeneral; }
+.sociology-big-picture > .os-note-body > ul.critical-thinking { -hack: "_UnorderedList--NotesQuestionSection"; }
+.sociology-big-picture > .os-note-body > ul.critical-thinking { margin-left: 0; }
+.sociology-big-picture > .os-note-body > ul.critical-thinking { padding-left: h-spacing(3); }
+.sociology-big-picture > .os-note-body > ul.critical-thinking { padding-top: 0.7rem; }
+.sociology-big-picture > .os-note-body > ul.critical-thinking { border-top-style: solid ; }
+.sociology-big-picture > .os-note-body > ul.critical-thinking { border-top-width: 0.1rem; }
+.sociology-big-picture > .os-note-body > ul.critical-thinking { font-weight: 700; }
+.sociology-big-picture > .os-note-body > ul.critical-thinking { -hack: "_UnorderedList--NotesQuestionSection"; }
+/*# sourceMappingURL=xml-example.css.map*/
