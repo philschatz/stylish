@@ -214,6 +214,10 @@ It has lots of promising properties:
 - Typed components & typed name-value pairs (the elements and attributes)
 - Nesting components
 
+Screencap:
+
+![](./media/tsx-autocomplete.gif)
+
 ### SimpleNote
 
 Let's start by creating a "Tip" which is an instance of a SimpleNote.

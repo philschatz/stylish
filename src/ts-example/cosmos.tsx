@@ -52,6 +52,51 @@ class Phil3 extends Component<{jammy: boolean}> { subSelector = 'foo > bar'; def
 class Phil4 extends Component<{}> { subSelector = 'figure > caption'; childTypes = [Phil3, Phil3] }
 
 
+
+
+
+
+
+type Color = 'red' | 'green' | 'blue' | 'black' | 'white'
+
+class Title extends Component<{fontFamily: string, color: Color, fontWeight?: number}> { subSelector = '[data-type="title"]' }
+
+class ProblemNumber extends Component<{color: Color}> { subselector = '[data-type="os-problem-number"]'; childTypes = [] }
+
+/**
+ * Requires exactly 2 children: Title and ProblemNumber.
+ */
+class Problem extends Component<{backgroundColor: Color}> { subdelector = '[data-type="problem"'; childTypes = [Title, ProblemNumber]}
+
+
+const a = (<Problem backgroundColor='blue'><ProblemNumber color='white'></ProblemNumber></Problem>)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export const bar = (<Phil1 foobar={true} num={123} />)
 export const baz = (<Phil3 jammy={true} />)
 export const foo = (<PhilChildren foobar={true} num={123} />)
