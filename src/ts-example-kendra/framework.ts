@@ -4,7 +4,7 @@ enum Settings {
 };
 
 type CSSProperty = {
-  name: string; // validation here for "string that is a valid CSS property name"?
+  name: string; 
   value: string | Settings;
 };
 
@@ -15,6 +15,7 @@ abstract class Component {
 
   addDefined(params: any): void {
     // parses params given as an object into CSSProperties and adds to `defined`
+    // (pretty gnarly)
     let param_str: string = JSON.stringify(params);
     let keys: string[] | undefined = param_str.match(/"[\w]*":/g)?.map((val) => {
         return val.replaceAll('\"', '').replaceAll('_', '-').replace(':', '');
@@ -22,16 +23,22 @@ abstract class Component {
     let vals: string[] | undefined = param_str.match(/:"[\w\s]*"/g)?.map((val) => { // TODO: allow hex colors thru, other data
         return val.replace(':', '').replaceAll('\"', '');
     });
-    for (let i = 0; i < keys.length; i++) {
-      this.defined.push({name: keys[i], value: vals[i]})
+    if (keys !== undefined && vals !== undefined) {
+      for (let i = 0; i < keys.length; i++) {
+        this.defined.push({name: keys[i], value: vals[i]})
+      }
     }
-  } // TODO: undefined checks; replaceAll
+  }
 
   toCSS(parentSelector: string): string {
-    // TODO: validation
+    // TODO: error if a value is still SETTINGS instead of string
+    // also, validation of property names should go somewhere
+    let css_values: string[] = this.defined.map((val) => {
+      return `${this.defined[0].name}: ${this.defined[0].value};`
+    });
     return `${parentSelector}${this.subSelector} {
-      ${this.defined[0].name}: ${this.defined[0].value};
-    }` // TODO: put in all attributes from defined
+      ${css_values.join('\n')};
+    }`
   }
 }
 
@@ -52,6 +59,6 @@ abstract class Shape {
   toCSS() {
     // Traverses component tree
     // weaves subselectors & creates selector rule + params
-    // calls buildComponentTree
+    // calls buildComponentTree & each component's toCSS()
   }
 }
