@@ -1,41 +1,4 @@
-enum Settings {
-  REQUIRED,
-  OPTIONAL
-};
-
-type CSSProperty = {
-  name: string; // validation here for "string that is a valid CSS property name"?
-  value: string | Settings;
-};
-
-// Components
-abstract class Component {
-  subSelector?: string;
-  protected defined: CSSProperty[] = [];
-
-  addDefined(params: any): void {
-    // parses params given as an object into CSSProperties and adds to `defined`
-    let param_str: string = JSON.stringify(params);
-    let keys: string[] | undefined = param_str.match(/"[\w]*":/g)?.map((val) => {
-        return val.replaceAll('\"', '').replaceAll('_', '-').replace(':', '');
-    });
-    let vals: string[] | undefined = param_str.match(/:"[\w\s]*"/g)?.map((val) => { // TODO: allow hex colors thru, other data
-        return val.replace(':', '').replaceAll('\"', '');
-    });
-    for (let i = 0; i < keys.length; i++) {
-      this.defined.push({name: keys[i], value: vals[i]})
-    }
-  } // TODO: undefined checks; replaceAll
-
-  toCSS(parentSelector: string): string {
-    // TODO: validation
-    return `${parentSelector}${this.subSelector} {
-      ${this.defined[0].name}: ${this.defined[0].value};
-    }` // TODO: put in all attributes from defined
-  }
-}
-
-// Component example
+// 1. components example
 interface note1Params {
   background_color: string | Settings;
   border_bottom: string | Settings;
@@ -72,28 +35,7 @@ class NoteTitle extends Component {
   // TODO: enforce this so that addDefined can't be called?
 };
 
-
-// Shapes
-abstract class Shape {
-  rootSelector: string;
-  componentTree: any; // TODO: type this
-
-  constructor(rootSelector: string) {
-    this.rootSelector = rootSelector;
-  }
-
-  buildComponentTree() {
-    // TODO: weave components (which are fields on the shape)
-    // into a tree by setting parent & child attributes, and creating the full subselector (can be missing root)
-  }
-
-  toCSS() {
-    // Traverses component tree
-    // weaves subselectors & creates selector rule + params
-    // calls buildComponentTree
-  }
-}
-
+// 2. shapes example
 class NoteShape extends Shape {
   // Component list as params of the shape, so that autocomplete will work
   note1: Note1;
@@ -112,6 +54,8 @@ class NoteShape extends Shape {
   }
 };
 
+
+// 3. creating shapes, adding settings
 const noteShape = new NoteShape('[data-type="note"]');
 // add optional and required params
 noteShape.note1.addDefined({
