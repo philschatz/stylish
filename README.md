@@ -57,7 +57,7 @@ Files:
 
 A major feature of this method over SASS is that developers have type hints so folks don't have to remember all of the arguments to style a component:
 
-![screencast of autocompletion](./media/ts-example.gif)
+![screencast of autocompletion](./media/ts-autocomplete.gif)
 
 
 #### Notes
