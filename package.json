@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "sourcemapper": "ts-node src/enki-replacement/fetch-update-metadata.ts example/input.xml example/out/output.xml",
+        "sourcemapper": "ts-node src/enki-replacement/fetch-update-metadata.ts example/a.xml example/out/b.xml && ts-node src/enki-replacement/fetch-update-metadata.ts example/out/b.xml example/out/c.xml",
         "start": "npm run ts && npm run xml",
         "ts": "ts-node src/ts-example/chemistry.ts",
         "prebuild-xml-schema": "xmllint --schema src/xml-example/schemas/framework.xsd src/xml-example/design.xml  --noout",

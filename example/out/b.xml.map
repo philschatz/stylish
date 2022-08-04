@@ -1,0 +1,1 @@
+{"version":3,"sources":["../a.xml"],"names":[],"mappings":"AAAC,KAAW,aAAa,aAAxB,CAAgC;IAC5B,MAAA,CAAO;QACH,GAAgB,mBAAhB,CAAA,KAAwB;IAD5B,QAEQ;AAHZ","sourcesContent":["<root name=\"value\" phil=\"hello\">\n    <child>\n        <br selfclosing=\"true\"/>\n    </child>\n</root>"]}

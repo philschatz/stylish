@@ -235,29 +235,32 @@ export async function readXmlWithSourcemap(filename: string) {
     if (lastChild.nodeType === lastChild.COMMENT_NODE) {
         const comment = lastChild as Comment
         const i = comment.data.indexOf('sourceMappingURL=')
-        const sourcemapFile = comment.data.substring(i).trim()
         if (i >= 0) {
+            const sourcemapFile = comment.data.substring(i + 'sourceMappingURL='.length).trim()
             // We have a SourceMap!
             const sourceMap = JSON.parse(readFileSync(resolve(dirname(filename), sourcemapFile), 'utf-8'))
             await SourceMapConsumer.with(sourceMap, null, (c) => {
                 const sourcesMap = new Map<string, FileInfo>()
                 c.sources.forEach(s => {
-                    sourcesMap.set(s, {
-                        filename: resolve(s),
+                    const abs = resolve(dirname(filename), s)
+                    sourcesMap.set(abs, {
+                        filename: abs,
                         content: c.sourceContentFor(s)
                     })
                 })
 
-                visit(document.documentElement, (n) => {
+                visit(doc.documentElement, (n) => {
                     const pos = getPos(n)
                     const mappedPos = c.originalPositionFor({
                         line: pos.lineNumber,
                         column: pos.columnNumber
                     })
+                    const abs = resolve(dirname(filename), assertValue(mappedPos.source, 'BUG'))
+                    const source = assertValue(sourcesMap.get(abs), 'Extra buggy. Fix this')
                     setPos(n, {
                         lineNumber: assertValue(mappedPos.line, 'BUG: Need to handle this case'),
                         columnNumber: assertValue(mappedPos.column, 'BUG: Need to handle this case'),
-                        source: assertValue(sourcesMap.get(resolve(assertValue(mappedPos.source))))
+                        source: source
                     })
                 })
             })
