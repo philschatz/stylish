@@ -1,0 +1,5 @@
+<root name="value" phil="hello">
+    <child>
+        <br selfclosing="true"/>
+    </child>
+</root>

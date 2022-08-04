@@ -1,0 +1,6 @@
+<root name="value" phil="hello">
+    <child>
+        <br selfclosing="true"></br>
+    </child>
+</root>
+<!-- # sourceMappingURL=output.xml.map -->
