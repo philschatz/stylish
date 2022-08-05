@@ -181,16 +181,24 @@ class SourceMapWriter {
 
         // Add the source file if it has not been added yet
         const pos = getPos(sourceNode)
-        const filename = relative(dirname(this.outputFile), pos.source.filename)
-        if (!this.sources.has(filename)) {
-            this.sources.set(filename, pos.source.content)
+        if (pos.source) {
+            const filename = relative(dirname(this.outputFile), pos.source.filename)
+            if (!this.sources.has(filename)) {
+                this.sources.set(filename, pos.source.content)
+            }
+    
+            this.g.addMapping({
+                source: filename,
+                original: { line: pos.lineNumber, column: pos.columnNumber },
+                generated: { line: this.currentLine, column: this.currentCol }
+            })
+        } else {
+            this.g.addMapping({
+                source: '(frominsidethecode)',
+                original: { line: 1, column: 0 },
+                generated: { line: this.currentLine, column: this.currentCol }
+            })
         }
-
-        this.g.addMapping({
-            source: filename,
-            original: { line: pos.lineNumber, column: pos.columnNumber },
-            generated: { line: this.currentLine, column: this.currentCol }
-        })
         // Append the first line
         const lines = text.split('\n')
         const first = lines.shift()

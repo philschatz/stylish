@@ -2,3 +2,5 @@
 /src/**/*.js
 /src/**/*.js.map
 xml-example.css.map
+
+/build/

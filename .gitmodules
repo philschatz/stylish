@@ -1,0 +1,4 @@
+[submodule "poet"]
+	path = poet
+	url = https://github.com/openstax/poet
+	branch = main

@@ -1,6 +1,6 @@
 {
     "scripts": {
-        "sourcemapper": "ts-node src/enki-replacement/fetch-update-metadata.ts example/a.xml example/out/b.xml && ts-node src/enki-replacement/fetch-update-metadata.ts example/out/b.xml example/out/c.xml",
+        "sourcemapper": "ts-node src/enki-replacement/fetch-update-metadata.ts",
         "start": "npm run ts && npm run xml",
         "ts": "ts-node src/ts-example/chemistry.ts",
         "prebuild-xml-schema": "xmllint --schema src/xml-example/schemas/framework.xsd src/xml-example/design.xml  --noout",
@@ -10,12 +10,16 @@
         "xml": "npm run build-xml-schema && npm run xml-runner"
     },
     "devDependencies": {
+        "@types/mkdirp": "^1.0.2",
         "@types/xmldom": "^0.1.31",
         "ts-node": "^10.8.1",
         "typescript": "^3.9.6"
     },
     "dependencies": {
+        "immutable": "^4.1.0",
+        "mkdirp": "^1.0.4",
         "preact": "^10.8.0",
+        "quarx": "^3.4.0",
         "source-map": "^0.7.4",
         "xmldom": "^0.6.0",
         "xpath-ts": "^1.3.13"
