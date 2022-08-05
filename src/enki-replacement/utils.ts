@@ -166,6 +166,7 @@ class SourceMapWriter {
     private readonly sources = new Map<string, string | null>()
     private currentLine = 1
     private currentCol = 0
+    private absToRelativeSources = new Map<string, string>() // absolute path -> relative path
 
     constructor(private outputFile: string) {
         this.outputFile = resolve(outputFile)
@@ -182,7 +183,10 @@ class SourceMapWriter {
         // Add the source file if it has not been added yet
         const pos = getPos(sourceNode)
         if (pos.source) {
-            const filename = pos.source.filename
+            if (!this.absToRelativeSources.has(pos.source.filename)) {
+                this.absToRelativeSources.set(pos.source.filename, relative(dirname(this.outputFile), pos.source.filename))
+            }
+            const filename = assertValue(this.absToRelativeSources.get(pos.source.filename))
             if (!this.sources.has(filename)) {
                 this.sources.set(filename, pos.source.content)
             }
@@ -220,8 +224,7 @@ class SourceMapWriter {
 
         for (const [sourceFile, sourceContent] of Array.from(this.sources.entries())) {
             if (sourceContent !== null) {
-                const relSourceFile = relative(dirname(this.outputFile), sourceFile)
-                this.g.setSourceContent(relSourceFile, sourceContent)
+                this.g.setSourceContent(sourceFile, sourceContent)
             }
         }
         writeFileSync(s, this.g.toString())
