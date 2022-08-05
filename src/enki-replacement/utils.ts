@@ -182,7 +182,7 @@ class SourceMapWriter {
         // Add the source file if it has not been added yet
         const pos = getPos(sourceNode)
         if (pos.source) {
-            const filename = relative(dirname(this.outputFile), pos.source.filename)
+            const filename = pos.source.filename
             if (!this.sources.has(filename)) {
                 this.sources.set(filename, pos.source.content)
             }
@@ -220,7 +220,8 @@ class SourceMapWriter {
 
         for (const [sourceFile, sourceContent] of Array.from(this.sources.entries())) {
             if (sourceContent !== null) {
-                this.g.setSourceContent(sourceFile, sourceContent)
+                const relSourceFile = relative(dirname(this.outputFile), sourceFile)
+                this.g.setSourceContent(relSourceFile, sourceContent)
             }
         }
         writeFileSync(s, this.g.toString())
