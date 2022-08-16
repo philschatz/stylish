@@ -8,6 +8,7 @@ import { join, dirname, relative } from 'path'
 import { Fileish } from '../../poet/server/src/model/fileish'
 import { PageNode } from '../../poet/server/src/model/page'
 
+// JSON Parser: https://github.com/microsoft/node-jsonc-parser
 
 function ensureLoaded<T extends Fileish>(n: T) {
     n.load(readFileSync(n.absPath, 'utf-8'))
