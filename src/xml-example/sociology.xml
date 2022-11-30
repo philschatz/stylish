@@ -26,9 +26,21 @@
         <BoxedNoteWithSubtitleShape
             selector=".sociology-big-picture">
             
-            <_Notes--Boxed__Title color="white" font-family="Archivo Black, sans-serif, StixGeneral" background-color="#C31427" border-color="white" />
-            <_Notes--Boxed__Body font-family="IBM Plex Sans, sans-serif, StixGeneral" background-color="#FFE5E5">
-                <_Notes--Boxed__Subtitle color="black" font-family="Archivo, sans-serif, StixGeneral" />
+            <_Notes--Boxed__Title 
+                color="{colorMap:::boxedNoteTitleColor}"
+                font-family="{typography:::titleOption3Font}"
+                border-color="{colorMap:::boxedNoteTitleBorderColor}"
+                background-color="#C31427"
+                />
+            
+            <_Notes--Boxed__Body
+                font-family="{typography:::titleOption2Font}"
+                background-color="#FFE5E5">
+                
+                <_Notes--Boxed__Subtitle
+                    color="{colorMap:::fontBodyColor}"
+                    font-family="{typography:::titleOption1Font}"
+                    />
                 <_UnorderedList--NotesQuestionSection />
             </_Notes--Boxed__Body>
         </BoxedNoteWithSubtitleShape>
