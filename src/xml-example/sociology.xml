@@ -25,7 +25,12 @@
 
         <BoxedNoteWithSubtitleShape
             selector=".sociology-big-picture">
-
+            
+            <_Notes--Boxed__Title color="white" font-family="Archivo Black, sans-serif, StixGeneral" background-color="#C31427" border-color="white" />
+            <_Notes--Boxed__Body font-family="IBM Plex Sans, sans-serif, StixGeneral" background-color="#FFE5E5">
+                <_Notes--Boxed__Subtitle color="black" font-family="Archivo, sans-serif, StixGeneral" />
+                <_UnorderedList--NotesQuestionSection />
+            </_Notes--Boxed__Body>
         </BoxedNoteWithSubtitleShape>
 
     </shapes>

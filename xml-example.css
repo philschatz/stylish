@@ -11,8 +11,8 @@
 .sociology-big-picture > .os-title { -hack: "_Notes--Boxed__Title"; }
 .sociology-big-picture > .os-title { color: white; }
 .sociology-big-picture > .os-title { font-family: Archivo Black, sans-serif, StixGeneral; }
-.sociology-big-picture > .os-title { border-color: white; }
 .sociology-big-picture > .os-title { background-color: #C31427; }
+.sociology-big-picture > .os-title { border-color: white; }
 .sociology-big-picture > .os-note-body { -hack: "_Notes--Boxed__Body"; }
 .sociology-big-picture > .os-note-body { font-size: 1rem; }
 .sociology-big-picture > .os-note-body { line-height: 1rem; }
